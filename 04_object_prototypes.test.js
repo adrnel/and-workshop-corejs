@@ -7,10 +7,18 @@
 
       Hint: To update a strings prototype use String.prototype.yourFunctionName = 
     
-*/ 
+*/
 
-test('Capitalise function', () => {
-    expect("the little brown dog".capitalize()).toBe("The little brown dog");
+
+String.prototype.capitalize = function () {
+  const tempArray = this.split(" ");
+  const newArr = tempArray.map(function(word){
+    return word.substring(0, 1).toUpperCase() + word.substring(1, 100)
+  })
+    return newArr.join(" ");
+}
+    test('Capitalise function', () => {
+    expect("the little brown dog".capitalize()).toBe("The Little Brown Dog");
 });
 
 /*
@@ -28,10 +36,14 @@ function Car( model, year, miles ) {
   this.year = year;
   this.miles = miles;
  
-  this.toString = function () {
-    return this.model + " has done " + this.miles + " miles";
-  };
+  // this.toString = function () {
+  //   return this.model + " has done " + this.miles + " miles";
+  // };
 }
+
+Car.prototype.toString = function () {
+  return this.model + " has done " + this.miles + " miles";
+};
 
 test('Car function has toString method', ()=>{
 
