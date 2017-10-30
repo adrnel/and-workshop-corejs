@@ -4,21 +4,33 @@
 
 */
 
-function Animal() { }
+// function Animal() { }
+//
+// Animal.prototype.speak = function() {
+//   return "meow";
+// }
+//
+// Animal.eat = function() {
+//   return 'nom nom nom';
+// }
+//
+// const Cat = new Animal();
+//
 
-Animal.prototype.speak = function() {
-  return "meow";
-}
 
-Animal.eat = function() {
-  return 'nom nom nom';
+class Animal {
+    speak(){
+        return "meow";
+    }
+
+    static eat(){
+        return 'nom nom nom';
+    }
 }
 
 const Cat = new Animal();
 
 test('Make cat meow', () => {
-
-    const Cat = new Animal();
 
     expect(Cat.speak()).toBe('meow');
     expect(Animal.eat()).toBe('nom nom nom');
@@ -31,6 +43,12 @@ test('Make cat meow', () => {
 	 	Tip: Use extends keyword
 
 */
+
+class Kitten extends Animal {
+    speak(){
+        return "kitten meow";
+    }
+}
 
 test('Hear the kitten meow', () => {
 
