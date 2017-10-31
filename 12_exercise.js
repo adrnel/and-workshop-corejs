@@ -23,27 +23,31 @@ function filter(candidates, filters) {
 
   if (filters.length === 0) return candidates;
 
+  // Looping through Candidates
   for (let i = candidates.length; i--; ) {
     let hasOptions = candidates[i].options && candidates[i].options.length > 0; //has.options
 
     if (candidates[i].options) {
+
+      // loop through filters
       for (let k = filters.length; k--; ) {
-        // loop through filters
         let hasFilter = false;
-        for (let j = candidates[i].options.length; j--; ) {
-          if (!availableImmediately && !freshGrad) {
-            if (filters[k].indexOf(candidates[i].options[j]) !== -1) {
-              hasFilter = true;
+
+        if(availableImmediately) {
+            hasFilter = candidates[i].options.indexOf('AVAILABLE_IMMEDIATELY') > -1;
+        } else if (freshGrad) {
+          hasFilter = candidates[i].options.indexOf('FRESH_GRAD') > -1;
+        } else {
+          //Looping through the options of a particular candidate
+          for (let j = candidates[i].options.length; j--; ) {
+            if (!availableImmediately && !freshGrad) {
+                if (filters[k].indexOf(candidates[i].options[j]) !== -1) {
+                    hasFilter = true;
+                }
             }
-          } else if (
-            availableImmediately &&
-            candidates[i].options[j] === 'AVAILABLE_IMMEDIATELY'
-          ) {
-            hasFilter = true;
-          } else if (freshGrad && candidates[i].options[j] === 'FRESH_GRAD') {
-            hasFilter = true;
           }
         }
+          
         hasOptions = hasOptions && hasFilter;
       }
     }
