@@ -17,16 +17,17 @@
  */
 
 function filter(candidates, filters) {
-  let availableImmediately = filters.indexOf('AVAILABLE_IMMEDIATELY') !== -1;
-  let freshGrad = filters.indexOf('FRESH_GRAD') !== -1 && !availableImmediately;
+  let availableImmediatelyFilter = filters.includes('AVAILABLE_IMMEDIATELY');
+  let freshGradFilter = !availableImmediately && filters.includes('FRESH_GRAD');
 
   return candidates.filter((candidate)=> {
-    if(availableImmediately) {
-      return candidate.options.indexOf('AVAILABLE_IMMEDIATELY') > -1;
-    } else if (freshGrad) {
-      return candidate.options.indexOf('FRESH_GRAD') > -1;
+    if(availableImmediatelyFilter) {
+      return candidate.options.includes('AVAILABLE_IMMEDIATELY');
     }
-    return filters.every(filter => candidate.options.indexOf(filter) > -1);
+    if (freshGradFilter) {
+      return candidate.options.includes('FRESH_GRAD');
+    }
+    return filters.every(filter => candidate.options.includes(filter));
   })
 }
 
