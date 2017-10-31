@@ -17,11 +17,8 @@
  */
 
 function filter(candidates, filters) {
-  const result = [];
   let availableImmediately = filters.indexOf('AVAILABLE_IMMEDIATELY') !== -1;
   let freshGrad = filters.indexOf('FRESH_GRAD') !== -1 && !availableImmediately;
-
-  if (filters.length === 0) return candidates;
 
   return candidates.filter((candidate)=> {
     if(availableImmediately) {
