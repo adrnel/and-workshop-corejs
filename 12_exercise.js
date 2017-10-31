@@ -23,31 +23,30 @@ function filter(candidates, filters) {
 
   if (filters.length === 0) return candidates;
 
-  // Looping through Candidates
-  for (let i = candidates.length; i--; ) {
-    let hasOptions = candidates[i].options && candidates[i].options.length > 0; //has.options
+  candidates.forEach((candidate)=>{
+    let hasOptions = candidate.options && candidate.options.length > 0; //has.options
 
-    if (candidates[i].options) {
-
-      // loop through filters
-      for (let k = filters.length; k--; ) {
+    if (candidate.options) {
+      
+      filters.forEach((filter)=>{
         let hasFilter = false;
 
         if(availableImmediately) {
-            hasFilter = candidates[i].options.indexOf('AVAILABLE_IMMEDIATELY') > -1;
+          hasFilter = candidate.options.indexOf('AVAILABLE_IMMEDIATELY') > -1;
         } else if (freshGrad) {
-          hasFilter = candidates[i].options.indexOf('FRESH_GRAD') > -1;
+          hasFilter = candidate.options.indexOf('FRESH_GRAD') > -1;
         } else {
-          hasFilter = candidates[i].options.indexOf(filters[k]) > -1;
+          hasFilter = candidate.options.indexOf(filter) > -1;
         }
 
         hasOptions = hasOptions && hasFilter;
-      }
+      })
+
     }
     if (hasOptions) {
-      result.unshift(candidates[i]);
+      result.push(candidate);
     }
-  }
+  })
   return result;
 }
 
