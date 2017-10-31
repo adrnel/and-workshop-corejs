@@ -24,28 +24,12 @@ function filter(candidates, filters) {
   if (filters.length === 0) return candidates;
 
   return candidates.filter((candidate)=> {
-    let hasOptions = candidate.options && candidate.options.length > 0; //has.options
-
-    if (candidate.options) {
-
-      filters.forEach((filter)=>{
-        let hasFilter = false;
-
-        if(availableImmediately) {
-          hasFilter = candidate.options.indexOf('AVAILABLE_IMMEDIATELY') > -1;
-        } else if (freshGrad) {
-          hasFilter = candidate.options.indexOf('FRESH_GRAD') > -1;
-        } else {
-          hasFilter = candidate.options.indexOf(filter) > -1;
-        }
-
-        hasOptions = hasOptions && hasFilter;
-      })
-
+    if(availableImmediately) {
+      return candidate.options.indexOf('AVAILABLE_IMMEDIATELY') > -1;
+    } else if (freshGrad) {
+      return candidate.options.indexOf('FRESH_GRAD') > -1;
     }
-    if (hasOptions) {
-      return true;
-    }
+    return filters.every(filter => candidate.options.indexOf(filter) > -1);
   })
 }
 
