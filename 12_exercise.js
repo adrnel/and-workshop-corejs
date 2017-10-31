@@ -17,50 +17,47 @@
  */
 
 function filter(candidates, filters) {
-  var result = [];
-  var candidateCount = candidates.length;
-  var filterCount = filters.length;
-  var hasOptions;
-  var availableImmediately = false;
-  var freshGrad = false;
+  const result = [];
+  const candidateCount = candidates.length;
+  const filterCount = filters.length;
+  let availableImmediately = false;
+  let freshGrad = false;
 
-  if (filterCount !== 0) {
-    if (filters.indexOf('AVAILABLE_IMMEDIATELY') !== -1) {
-      availableImmediately = true;
-    } else if (filters.indexOf('FRESH_GRAD') !== -1) {
-      freshGrad = true;
-    }
+  if (filterCount === 0) return candidates;
 
-    for (var i = candidateCount; i--; ) {
-      hasOptions = candidates[i].options && candidates[i].options.length > 0; //has.options
+  if (filters.indexOf('AVAILABLE_IMMEDIATELY') !== -1) {
+    availableImmediately = true;
+  } else if (filters.indexOf('FRESH_GRAD') !== -1) {
+    freshGrad = true;
+  }
 
-      if (candidates[i].options) {
-        for (var k = filterCount; k--; ) {
-          // loop through filters
-          var hasFilter = false;
-          for (var j = candidates[i].options.length; j--; ) {
-            if (!availableImmediately && !freshGrad) {
-              if (filters[k].indexOf(candidates[i].options[j]) !== -1) {
-                hasFilter = true;
-              }
-            } else if (
-              availableImmediately &&
-              candidates[i].options[j] === 'AVAILABLE_IMMEDIATELY'
-            ) {
-              hasFilter = true;
-            } else if (freshGrad && candidates[i].options[j] === 'FRESH_GRAD') {
+  for (let i = candidateCount; i--; ) {
+    let hasOptions = candidates[i].options && candidates[i].options.length > 0; //has.options
+
+    if (candidates[i].options) {
+      for (let k = filterCount; k--; ) {
+        // loop through filters
+        let hasFilter = false;
+        for (let j = candidates[i].options.length; j--; ) {
+          if (!availableImmediately && !freshGrad) {
+            if (filters[k].indexOf(candidates[i].options[j]) !== -1) {
               hasFilter = true;
             }
+          } else if (
+            availableImmediately &&
+            candidates[i].options[j] === 'AVAILABLE_IMMEDIATELY'
+          ) {
+            hasFilter = true;
+          } else if (freshGrad && candidates[i].options[j] === 'FRESH_GRAD') {
+            hasFilter = true;
           }
-          hasOptions = hasOptions && hasFilter;
         }
-      }
-      if (hasOptions) {
-        result.unshift(candidates[i]);
+        hasOptions = hasOptions && hasFilter;
       }
     }
-  } else {
-    result = candidates;
+    if (hasOptions) {
+      result.unshift(candidates[i]);
+    }
   }
   return result;
 }
