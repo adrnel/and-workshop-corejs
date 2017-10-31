@@ -38,16 +38,9 @@ function filter(candidates, filters) {
         } else if (freshGrad) {
           hasFilter = candidates[i].options.indexOf('FRESH_GRAD') > -1;
         } else {
-          //Looping through the options of a particular candidate
-          for (let j = candidates[i].options.length; j--; ) {
-            if (!availableImmediately && !freshGrad) {
-                if (filters[k].indexOf(candidates[i].options[j]) !== -1) {
-                    hasFilter = true;
-                }
-            }
-          }
+          hasFilter = candidates[i].options.indexOf(filters[k]) > -1;
         }
-          
+
         hasOptions = hasOptions && hasFilter;
       }
     }
