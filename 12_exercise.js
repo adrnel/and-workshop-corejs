@@ -18,12 +18,10 @@
 
 function filter(candidates, filters) {
   const result = [];
-  const candidateCount = candidates.length;
-  const filterCount = filters.length;
   let availableImmediately = false;
   let freshGrad = false;
 
-  if (filterCount === 0) return candidates;
+  if (filters.length === 0) return candidates;
 
   if (filters.indexOf('AVAILABLE_IMMEDIATELY') !== -1) {
     availableImmediately = true;
@@ -31,11 +29,11 @@ function filter(candidates, filters) {
     freshGrad = true;
   }
 
-  for (let i = candidateCount; i--; ) {
+  for (let i = candidates.length; i--; ) {
     let hasOptions = candidates[i].options && candidates[i].options.length > 0; //has.options
 
     if (candidates[i].options) {
-      for (let k = filterCount; k--; ) {
+      for (let k = filters.length; k--; ) {
         // loop through filters
         let hasFilter = false;
         for (let j = candidates[i].options.length; j--; ) {
