@@ -18,16 +18,10 @@
 
 function filter(candidates, filters) {
   const result = [];
-  let availableImmediately = false;
-  let freshGrad = false;
+  let availableImmediately = filters.indexOf('AVAILABLE_IMMEDIATELY') !== -1;
+  let freshGrad = filters.indexOf('FRESH_GRAD') !== -1 && !availableImmediately;
 
   if (filters.length === 0) return candidates;
-
-  if (filters.indexOf('AVAILABLE_IMMEDIATELY') !== -1) {
-    availableImmediately = true;
-  } else if (filters.indexOf('FRESH_GRAD') !== -1) {
-    freshGrad = true;
-  }
 
   for (let i = candidates.length; i--; ) {
     let hasOptions = candidates[i].options && candidates[i].options.length > 0; //has.options
