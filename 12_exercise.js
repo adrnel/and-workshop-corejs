@@ -16,39 +16,39 @@
  *   happy refactory :)
  */
 
-function filter(results, filters) {
-  var out = [];
-  var resultsLength = results.length;
-  var filterLength = filters.length;
+function filter(candidates, filters) {
+  var result = [];
+  var candidateCount = candidates.length;
+  var filterCount = filters.length;
   var hasOptions;
   var availableImmediately = false;
   var freshGrad = false;
 
-  if (filterLength !== 0) {
+  if (filterCount !== 0) {
     if (filters.indexOf('AVAILABLE_IMMEDIATELY') !== -1) {
       availableImmediately = true;
     } else if (filters.indexOf('FRESH_GRAD') !== -1) {
       freshGrad = true;
     }
 
-    for (var i = resultsLength; i--; ) {
-      hasOptions = results[i].options && results[i].options.length > 0; //has.options
+    for (var i = candidateCount; i--; ) {
+      hasOptions = candidates[i].options && candidates[i].options.length > 0; //has.options
 
-      if (results[i].options) {
-        for (var k = filterLength; k--; ) {
+      if (candidates[i].options) {
+        for (var k = filterCount; k--; ) {
           // loop through filters
           var hasFilter = false;
-          for (var j = results[i].options.length; j--; ) {
+          for (var j = candidates[i].options.length; j--; ) {
             if (!availableImmediately && !freshGrad) {
-              if (filters[k].indexOf(results[i].options[j]) !== -1) {
+              if (filters[k].indexOf(candidates[i].options[j]) !== -1) {
                 hasFilter = true;
               }
             } else if (
               availableImmediately &&
-              results[i].options[j] === 'AVAILABLE_IMMEDIATELY'
+              candidates[i].options[j] === 'AVAILABLE_IMMEDIATELY'
             ) {
               hasFilter = true;
-            } else if (freshGrad && results[i].options[j] === 'FRESH_GRAD') {
+            } else if (freshGrad && candidates[i].options[j] === 'FRESH_GRAD') {
               hasFilter = true;
             }
           }
@@ -56,13 +56,13 @@ function filter(results, filters) {
         }
       }
       if (hasOptions) {
-        out.unshift(results[i]);
+        result.unshift(candidates[i]);
       }
     }
   } else {
-    out = results;
+    result = candidates;
   }
-  return out;
+  return result;
 }
 
 module.exports = filter;
