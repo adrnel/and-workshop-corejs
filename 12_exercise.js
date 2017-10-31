@@ -23,11 +23,11 @@ function filter(candidates, filters) {
 
   if (filters.length === 0) return candidates;
 
-  candidates.forEach((candidate)=>{
+  return candidates.filter((candidate)=> {
     let hasOptions = candidate.options && candidate.options.length > 0; //has.options
 
     if (candidate.options) {
-      
+
       filters.forEach((filter)=>{
         let hasFilter = false;
 
@@ -44,10 +44,9 @@ function filter(candidates, filters) {
 
     }
     if (hasOptions) {
-      result.push(candidate);
+      return true;
     }
   })
-  return result;
 }
 
 module.exports = filter;
