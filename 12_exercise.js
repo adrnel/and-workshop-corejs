@@ -16,9 +16,9 @@
  *   happy refactory :)
  */
 
-function filter(candidates, filters) {
+module.exports = function filter(candidates, filters) {
   let availableImmediatelyFilter = filters.includes('AVAILABLE_IMMEDIATELY');
-  let freshGradFilter = !availableImmediately && filters.includes('FRESH_GRAD');
+  let freshGradFilter = !availableImmediatelyFilter && filters.includes('FRESH_GRAD');
 
   return candidates.filter((candidate)=> {
     if(availableImmediatelyFilter) {
@@ -29,6 +29,4 @@ function filter(candidates, filters) {
     }
     return filters.every(filter => candidate.options.includes(filter));
   })
-}
-
-module.exports = filter;
+};
