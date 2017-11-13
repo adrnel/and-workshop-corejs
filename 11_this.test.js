@@ -5,31 +5,44 @@ it('should print the name of the person objects', () => {
 
   const john = { name: 'John' };
 
-  expect(/* 🤔 */).toBe('John'); // USE bind https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind
-  expect(/* 🤔 */).toEqual('John'); // USE call https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call
-  expect(/* 🤔 */).toEqual('John'); // USE apply https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply
+  expect(getName.bind(john)()).toBe('John'); // USE bind https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind
+  expect(getName.call(john)).toEqual('John'); // USE call https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call
+  expect(getName.apply(john)).toEqual('John'); // USE apply https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply
 });
 
 it('should print the name of the person objects', () => {
-  function Person() {
-    /* ... */
+  function Person(age, name) {
+    this.age = age;
+    this.name = name;
+    this.isFine = function(){
+      return true
+    }
   }
 
-  const john = null;
+  const john = new Person(28, 'John');
 
   expect(john.age).toBe(28);
   expect(john.name).toEqual('John');
   expect(john.isFine()).toBe(true);
 });
 
-it('should return the maximu number in an array', () => {
+it('should return the maximum number in an array', () => {
   //don't google it, try it first! hint: use apply and https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max
   const numbers = [1, 99, 34, 1000, 123];
 
-  expect(/* 🤔 */).toBe(1000);
+  function getMax(numbersArray){
+    let currentMax = 0;
+    for(let i = 0; i<numbersArray.length; i++ ){
+        if (numbersArray[i] > currentMax){
+            currentMax = numbersArray[i]
+        }
+      }
+      return currentMax
+  }
+  expect(getMax(numbers)).toBe(1000);
 });
 
-it('should return the maximu number in an array', () => {
+it('should return the average number in an array', () => {
   const leaderBoard = {
     scores: [900, 845, 809, 950],
     avgScore: null,
@@ -38,6 +51,7 @@ it('should return the maximu number in an array', () => {
         return prev + cur;
       });
       this.avgScore = sumOfScores / this.scores.length;
+      return this.avgScore
     }
   };
 
@@ -46,5 +60,7 @@ it('should return the maximu number in an array', () => {
     avgScore: null
   };
 
-  expect(anotherleaderBoard.avgScore).toBe(9);
+  anotherleaderBoard.avgScore = leaderBoard.avg.bind(anotherleaderBoard);
+
+  expect(anotherleaderBoard.avgScore()).toBe(9);
 });

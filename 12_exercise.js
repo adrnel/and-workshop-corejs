@@ -17,8 +17,8 @@
  */
 
 module.exports = function filter(candidates, filters) {
-  let availableImmediatelyFilter = filters.includes('AVAILABLE_IMMEDIATELY');
-  let freshGradFilter = !availableImmediatelyFilter && filters.includes('FRESH_GRAD');
+  const availableImmediatelyFilter = filters.includes('AVAILABLE_IMMEDIATELY');
+  const freshGradFilter = !availableImmediatelyFilter && filters.includes('FRESH_GRAD');
 
   return candidates.filter((candidate)=> {
     if(availableImmediatelyFilter) {

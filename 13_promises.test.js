@@ -6,15 +6,11 @@
 */
 
 const anAsyncFunction = (result) => {
-    return new Promise((resolve, reject) => {
-
-        if (result) {
-            return resolve([0, 1, 2]);
-        } else {
-            return reject(' Oh no :( ');
-        }
-
-    })
+  if (result){
+    return Promise.resolve([0, 1, 2])
+  } else {
+    return Promise.reject(' Oh no :( ')
+  }
 };
 
 test('When resolved, the then is called', (done) => {
@@ -48,11 +44,15 @@ test('When rejected, the catch handler is called', (done) => {
 
 const addOne = result => result + 1;
 
+const addTwo = function(num){
+  return num + 2
+}
+
 test('Add up to 6!', (done) => {
     return Promise.resolve(0)
-        .then((num) => num + 2 )
-        .then((num) => num + 2 )
-        .then((num) => num + 2 )
+        .then(addTwo)
+        .then(addTwo)
+        .then(addTwo)
         .then(function(result){
             expect(result).toBe(6);
         })
@@ -68,29 +68,20 @@ test('Add up to 6!', (done) => {
 
 test('A big old chain of promises', (done) => {
     Promise.resolve(0)
-        .then(addOne)
-        .then((value) => {
-            return Promise.resolve(value)
-                .then((value) => {
-                    return Promise.resolve(value)
-                        .then(addOne)
-                        .then(addOne)
-                        .then(addOne)
-                })
-                .then(addOne)
-                .then(addOne)
-        })
-        .then(addOne)
-        .then((value) => {
-            return Promise.resolve(value)
-                .then(addOne)
-                .then(addOne)
-                .then(addOne)
-        })
-        .then((result) => {
-            expect(result).toBe(10);
-        })
-        .then(done);
+      .then(addOne)
+      .then(addOne)
+      .then(addOne)
+      .then(addOne)
+      .then(addOne)
+      .then(addOne)
+      .then(addOne)
+      .then(addOne)
+      .then(addOne)
+      .then(addOne)
+      .then((result) => {
+        expect(result).toBe(10);
+      })
+      .then(done);
 });
 
 
@@ -123,17 +114,19 @@ const subscribe = (userName, id) => {
 };
 
 test('Get Alices plan', (done) => {
-
-    return getUser()
-        .then((user) => {
-            return getPlans().then((plans) => {
-                return subscribe(user.name, plans.id);      
-            })
-        })
-        .then((string)=> {
-            expect(string).toBe('Create the plan called Alice for plan ID 4')
-            done();
-        });
+  Promise.all(subscribe(getUser(), getPlans()))
+    .then((string)=>{expect(string).toBe('Create the plan called Alice for plan ID 4')
+      done()})
+    // return getUser()
+    //     .then((user) => {
+    //         return getPlans().then((plans) => {
+    //             return subscribe(user.name, plans.id);
+    //         })
+    //     })
+    //     .then((string)=> {
+    //         expect(string).toBe('Create the plan called Alice for plan ID 4')
+    //         done();
+    //     });
     
 });
 
